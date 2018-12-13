@@ -54,18 +54,19 @@ public class JMXQuery {
         try {
             ArrayList<JMXMetric> outputMetrics = query.connector.getMetrics(query.metrics);  
             if (query.outputJSON) {
-                System.out.println("[");
+                StringBuilder output = new StringBuilder("[");
                 int count = 0;
                 for (JMXMetric metric : outputMetrics) {
                     metric.replaceTokens();
                     if (count > 0) {                        
-                        System.out.print(", \n" + metric.toJSON());
+                        output.append(", \n" + metric.toJSON());
                     } else {
                         count++;
-                        System.out.print(metric.toJSON());
+                        output.append(metric.toJSON());
                     }
                 }
-                System.out.println("]");
+                output.append("]")
+                System.out.println(output.toString());
             } else {
                 for (JMXMetric metric : outputMetrics) {
                     metric.replaceTokens();
